@@ -1,4 +1,6 @@
-#중복이 없다고 가정 할시 사용할 코드
+#중복이 발생했다고 가정 할시 사용할 코드
+#전필 생물공학과와 화학공학과 사이에 중복발생
+#전필 생물공학과와 서범대학 사이에 중복발생
 import pymysql
 from sqlite3 import Cursor
 from selenium import webdriver
@@ -10,7 +12,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
-lectures_buffer = []
 year = '2022'
 semester = '1학기'
 esoo = '전선'
@@ -32,11 +33,10 @@ def is_exist_by_css(driver : webdriver.Chrome,css_selector : str):
         return False
     return True
 
-def insert_database(conn : pymysql.Connection, cur : Cursor):
-    global lectures_buffer
+def insert_database(t: tuple, conn : pymysql.Connection, cur : Cursor):
     insert_sql = """insert into ku_sugang_2022_1(haksu_id, category, id, title, credit, hours, how, _language, note, category_of_elective, grade, department, professor, summary)
                     values(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
-    cur.executemany(insert_sql, lectures_buffer)
+    cur.execute(insert_sql, t)
     conn.commit()
 
 def crawling_one_page(driver : webdriver.Chrome, conn : pymysql.Connection, cur : Cursor):#목록이 로딩된후 이 목록들에 대해 크롤링
@@ -74,8 +74,11 @@ def crawling_one_page(driver : webdriver.Chrome, conn : pymysql.Connection, cur 
              td_list[13].string,#개설학과 11
              td_list[14].string.lstrip(),#교강사 12
              td_list[15].string.lstrip()#강의요시 13
-             )       
-        lectures_buffer.append(t)
+             )
+        cur.execute('select * from ku_sugang_2022_1 where id = %s', t[2])
+        if cur.fetchone():
+            continue   
+        insert_database(t, conn, cur)
     #빈칸에서 \xa0 이 crawling되고 이를 mysql에 insert하는 경우에 그냥 빈 문자열로 insert된다(?)
 
 #학년, 학기 선택.... 후에 드롭다운(이수구분, 학과)에 있는 option을 차례대로 선택
@@ -111,8 +114,6 @@ def control_driver(driver : webdriver.Chrome, conn : pymysql.Connection, cur : C
         driver.find_element(By.CSS_SELECTOR,'#btnSearch').click()
         #time.sleep(1)
         crawling_one_page(driver, conn, cur)
-        
-    insert_database(conn, cur)
     
         
         
