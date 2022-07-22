@@ -43,7 +43,6 @@
     //Array ( [0] => 2021 [1] => 2022 )
 
     $select_box_html = '<select id="select_year" onchange="year_change(this)">';
-    $select_box_html .= '<option>년도</option>';
     foreach($year_list as $year){
       //print_r($year);
       $option_html = '<option value="';
@@ -73,11 +72,10 @@
     foreach($year_list as $year){
       $j_semester_list_append_script_html = 'j_semester_list["'.$year.'"] = [];';
       foreach($semester_list[$year] as $semester){
-        //echo $semester;
         $j_semester_list_append_script_html .= 'j_semester_list["'.$year.'"].push("'.$semester.'");';
       }
+      $script_yearchange_function_html .= $j_semester_list_append_script_html;
     }
-    $script_yearchange_function_html .= $j_semester_list_append_script_html;
 
     $script_yearchange_function_html .=
       '
