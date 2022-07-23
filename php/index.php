@@ -1,5 +1,7 @@
 <?php
-require_once('lib/library.php');
+require_once './lib/init.php';
+require_once './lib/make_html.php';
+
 
 $mysqli = connection();
 
@@ -9,12 +11,16 @@ $semester_list = make_semester_list($mysqli);
 
 //end
 
-$script_html = make_yearchange_function_script_html($semester_list);
-echo $script_html;
-$select_box_year_html = make_dropdown_year_html($semester_list);
-echo $select_box_year_html;
-$select_box_semester_html = make_dropdown_semester_html();
-echo $select_box_semester_html;
+
+
+$a = make_j_semester_list_script_html($semester_list);
+echo $a;
+$b = make_year_change_script_html();
+echo $b;
+$c = make_dropdown_year_html($semester_list);
+echo $c;
+$d = make_dropdown_semester_html($semester_list);
+echo $d;
 
 
 
