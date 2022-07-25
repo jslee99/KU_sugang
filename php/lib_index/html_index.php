@@ -17,7 +17,7 @@ function make_dropdown_year_html($semester_list){
 }
 
 function make_dropdown_semester_html($semester_list){
-  $year_list = array_keys($semester_list);
+  // $year_list = array_keys($semester_list);
 
   $dropdown_semester_html = '<select name="semester" id="select_semester">';
   // foreach($semester_list[$year_list[0]] as $semester){
@@ -36,13 +36,7 @@ function make_year_change_script_html(){
   <script>
   function year_change(year_select_box){
     var select_semester = document.getElementById("select_semester");
-    select_semester.options.length = 0;
-    for(var i in j_semester_list[year_select_box.value]){
-      var opt = document.createElement("option");
-      opt.value = j_semester_list[year_select_box.value][i];
-      opt.innerHTML = j_semester_list[year_select_box.value][i];
-      select_semester.appendChild(opt);
-      }
+    control_semester_select_by_year_select(year_select_box, select_semester);
     }
   </script>';
   //getElementById("select_Semester")는 makePdropdwon_semester_html()의 <select id="select_semester">와 종속됨
@@ -82,19 +76,7 @@ function make_onload_script_html(){
           window.onload = function(){
             var select_year = document.getElementById("select_year");
             var select_semester = document.getElementById("select_semester");
-            select_semester.options.length = 0;
-            var keys = Object.keys(j_semester_list);
-            for(var i in keys){
-              if(keys[i] == select_year.options[select_year.selectedIndex].value){
-                for(var j in j_semester_list[keys[i]]){
-                  var opt = document.createElement("option");
-                  opt.value = j_semester_list[keys[i]][j];
-                  opt.innerHTML = j_semester_list[keys[i]][j];
-                  select_semester.appendChild(opt);
-                }
-                break;
-              }
-            }
+            control_semester_select_by_year_select(select_year, select_semester);
           }
 
           window.onpageshow = function(event) {
@@ -103,22 +85,25 @@ function make_onload_script_html(){
               //현재 페이지에서 다른 페이지로 간후, 또다시 현재 페이지로 뒤로가기 누른경우에 이 함수 실행
               var select_year = document.getElementById("select_year");
               var select_semester = document.getElementById("select_semester");
-              select_semester.options.length = 0;
-              var keys = Object.keys(j_semester_list);
-              console.log("back");
-              for(var i in keys){
-                if(keys[i] == select_year.options[select_year.selectedIndex].value){
-                  for(var j in j_semester_list[keys[i]]){
-                    var opt = document.createElement("option");
-                    opt.value = j_semester_list[keys[i]][j];
-                    opt.innerHTML = j_semester_list[keys[i]][j];
-                    select_semester.appendChild(opt);
-                  }
-                  break;
-                }
-              }
+              control_semester_select_by_year_select(select_year, select_semester);
             }
           }
         </script>';
+}
+
+function make_control_semester_select_by_year_select_script_html(){
+  $html = '<script>
+            function control_semester_select_by_year_select(year_select, semester_select){
+              semester_select.options.length = 0;
+              for(var i in j_semester_list[year_select.value]){
+                var opt = document.createElement("option");
+                opt.value = j_semester_list[year_select.value][i];
+                opt.innerHTML = j_semester_list[year_select.value][i];
+                semester_select.appendChild(opt);
+              }
+            }
+          </script>';
+
+  return $html;
 }
  ?>

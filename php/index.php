@@ -1,6 +1,6 @@
 <?php
-require_once './lib/init.php';
-require_once './lib/make_html.php';
+require_once './lib_index/init_index.php';
+require_once './lib_index/html_index.php';
 
 
 $mysqli = connection();
@@ -17,10 +17,13 @@ $a = make_j_semester_list_script_html($semester_list);
 echo $a;
 $b = make_year_change_script_html($semester_list);
 echo $b;
+echo make_control_semester_select_by_year_select_script_html();
+echo make_onload_script_html();
+//뒤로가기 눌렀을시 어떡해야하는가
+
 $c = make_form_html($semester_list);
 echo $c;
-echo make_onload_script_html();
-//뒤로가기 눌렀을시 어떡해야하는가?
+
 
 
 ?>
