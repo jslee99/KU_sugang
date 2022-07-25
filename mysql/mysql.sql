@@ -64,9 +64,11 @@ create table 2021_2nd(
 -- alter table ku_sugang_2022_1 modify note varchar(500);
 -- alter table ku_sugang_2022_1 modify professor varchar(150);
 
+
+select * from 2022_1st where professor like '%이승제%';
 show tables;
 select distinct(department) from 2022_1;
-select * from 2022_1;
+select * from 2022_1st where category = '기교';
 select * from ku_sugang_2022_1 where title = 'CSP진로탐색';
 select * from ku_sugang_2022_1 where id = 2001;
 select count(*) from ku_sugang_2022_1;

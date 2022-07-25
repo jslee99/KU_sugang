@@ -15,16 +15,14 @@ $semester_list = make_semester_list($mysqli);
 
 $a = make_j_semester_list_script_html($semester_list);
 echo $a;
-$b = make_year_change_script_html();
+$b = make_year_change_script_html($semester_list);
 echo $b;
-$c = make_dropdown_year_html($semester_list);
+$c = make_form_html($semester_list);
 echo $c;
-$d = make_dropdown_semester_html($semester_list);
-echo $d;
+echo make_onload_script_html();
+//뒤로가기 눌렀을시 어떡해야하는가?
 
 
-
-echo "yes";
 ?>
 
 <!DOCTYPE html>
@@ -34,6 +32,5 @@ echo "yes";
     <title>강의 시간표 조회</title>
   </head>
   <body>
-
   </body>
 </html>
