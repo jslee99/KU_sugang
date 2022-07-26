@@ -64,6 +64,7 @@ function make_j_semester_list_script_html($semester_list){
 
 function make_form_html($semester_list){
     $form_html = '<form action="lecture.php" accept-charset="utf-8" name="year_semester_info" method="post">';
+    $form_html .= '<input type="hidden" name="is_search" value="false">';
     $form_html .= make_dropdown_year_html($semester_list);
     $form_html .= make_dropdown_semester_html($semester_list);
     $form_html .= '<input type="submit">

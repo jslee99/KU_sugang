@@ -1,6 +1,6 @@
 <?php
 function make_dropdown_esoo_html($esoo_list){
-  $dropdown_esoo_html = '<select id="esoo_select" onchange="esoo_change(this)">';
+  $dropdown_esoo_html = '<select id="esoo_select" name="esoo" onchange="esoo_change(this)">';
   foreach($esoo_list as $esoo){
     $option_html = '<option value="';
     $option_html .= $esoo.'">';
@@ -24,7 +24,7 @@ function make_dropdown_esoo_html($esoo_list){
 // }
 
 function make_dropdown_department_html(){
-  return '<select id="department_select">
+  return '<select id="department_select" name="department">
           </select>';
 }
 
@@ -85,5 +85,37 @@ function make_control_department_select_by_esoo_select_script_html(){
           }
           </script>';
   return $html;
+}
+
+function make_dropdown_detail_category(){
+  $html = '<select id="detail_category_select" name="detail_category">
+            <option value="과목명">과목명</option>
+            <option value="과목번호">과목번호</option>
+            <option value="교강사">교강사</option>
+          </select>';
+  return $html;
+}
+
+function make_text_detail(){
+  $html = '<textarea id="detail_text" name="detail" style="height:18px"></textarea>';
+  return $html;
+}
+
+function make_form_html($year, $semester, $esoo_list){
+  $html = '<form action="lecture.php" accept-charset="utf-8" name="all_search_info" method="post">';
+  $html .= '<input type="hidden" name="is_search" value="true">';
+  $html .= '<input type="hidden" name="year" value="'.$year.'">';
+  $html .= '<input type="hidden" name="semester" value="'.$semester.'">';
+  $html .= make_dropdown_esoo_html($esoo_list);
+  $html .= make_dropdown_department_html();
+  $html .= make_dropdown_detail_category();
+  $html .= make_text_detail();
+  $html .= '<input type="submit" value="조회">
+            </form>';
+  return $html;
+}
+
+function make_lecture_list_html($mysqli, $year, $semester, $esoo, $department, $detail_category, $detail){
+  return 'search';
 }
 ?>

@@ -2,14 +2,22 @@
 require_once './lib_lecture/init_lecture.php';
 require_once './lib_lecture/html_lecture.php';
 
+
+
 $year = $_POST['year'];
 $semester = $_POST['semester'];
 $mysqli = connection();
 
+if($_POST['is_search'] == 'false'){//처음 도착한 경우
+  $body_html = '검색 조건 선택후 조회 버튼을 누르세요.';
+}else{//검색하는경우
+  $body_html = make_lecture_list_html($mysqli, $_POST['year'], $_POST['semester'], $_POST['esoo'], $_POST['department'], $_POST['detail_category'], $_POST['detail']);
+}
+
 echo $year;
 echo $semester;
 
-;
+
 
 $esoo_list = make_esoo_list($mysqli, $year, $semester);
 //print_r($esoo_list);
@@ -21,13 +29,18 @@ $department_list =  make_department_list($mysqli, $year, $semester);
 echo make_j_department_list_script_html($department_list);
 echo make_control_department_select_by_esoo_select_script_html();
 echo make_onload_script_html();
-
 echo make_esoo_change_script_html();
-echo make_dropdown_esoo_html($esoo_list);
-//echo $dropdown_esoo_html;
-echo make_dropdown_department_html();
-//echo $dropdown_department_html;
+
+
+// echo make_dropdown_esoo_html($esoo_list);
+// //echo $dropdown_esoo_html;
+// echo make_dropdown_department_html();
+// //echo $dropdown_department_html;
+// echo make_dropdown_detail_category();
+// echo make_text_detail();
+echo make_form_html($year, $semester, $esoo_list);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -36,6 +49,6 @@ echo make_dropdown_department_html();
     <title></title>
   </head>
   <body>
-
+    <?php echo $body_html; ?>
   </body>
 </html>
