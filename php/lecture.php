@@ -14,9 +14,6 @@ if($_POST['is_search'] == 'false'){//처음 도착한 경우
   $body_html = make_lecture_list_html($mysqli, $_POST['year'], $_POST['semester'], $_POST['esoo'], $_POST['department'], $_POST['detail_category'], $_POST['detail']);
 }
 
-echo $year;
-echo $semester;
-
 
 
 $esoo_list = make_esoo_list($mysqli, $year, $semester);
@@ -26,10 +23,7 @@ $esoo_list = make_esoo_list($mysqli, $year, $semester);
 $department_list =  make_department_list($mysqli, $year, $semester);
 //print_r($department_list);
 
-echo make_j_department_list_script_html($department_list);
-echo make_control_department_select_by_esoo_select_script_html();
-echo make_onload_script_html();
-echo make_esoo_change_script_html();
+
 
 
 // echo make_dropdown_esoo_html($esoo_list);
@@ -38,7 +32,11 @@ echo make_esoo_change_script_html();
 // //echo $dropdown_department_html;
 // echo make_dropdown_detail_category();
 // echo make_text_detail();
-echo make_form_html($year, $semester, $esoo_list);
+if($_POST['is_search'] == 'false'){
+  $form_html = make_form_html($year, $semester, $esoo_list, reset($esoo_list));
+}else{
+  $form_html = make_form_html($year, $semester, $esoo_list, $_POST['esoo']);
+}
 ?>
 
 
@@ -46,9 +44,24 @@ echo make_form_html($year, $semester, $esoo_list);
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>강의 시간표 조회</title>
+    <?php
+    echo make_j_department_list_script_html($department_list);
+    echo make_control_department_select_by_esoo_select_script_html();
+    if($_POST['is_search'] == 'false'){
+      echo make_onload_script_html('not_search');
+    }else{
+      echo make_onload_script_html($_POST['department']);
+    }
+    echo make_esoo_change_script_html();
+    ?>
   </head>
   <body>
-    <?php echo $body_html; ?>
+    <?php
+    echo $year;
+    echo $semester;
+    echo $form_html;
+
+    echo $body_html; ?>
   </body>
 </html>
