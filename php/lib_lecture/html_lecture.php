@@ -34,20 +34,19 @@ function make_dropdown_department_html(){
 }
 
 function make_j_department_list_script_html($department_list){
-  $html = '<script>
+  $html = '
             j_department_list = [];';
   foreach($department_list as $department){
     $append_html = 'j_department_list.push("'.$department.'");';
     $html .= $append_html;
   }
 
-  $html .= '</script>';
 
   return $html;
 }
 
 function make_esoo_change_script_html(){
-  $html = '<script>
+  $html = '
             function esoo_change(esoo_select, selected_department){
               var department_select = document.getElementById("department_select");
               control_department_select_by_esoo_select(esoo_select, department_select);
@@ -62,12 +61,12 @@ function make_esoo_change_script_html(){
               //   }
               // }
             }
-          </script>';
+          ';
   return $html;
 }
 
 function make_onload_script_html($selected_department){
-  $html = '<script>
+  $html = '
           window.onload = function(){
             var selected_department = "'.$selected_department.'";
             var esoo_select = document.getElementById("esoo_select");
@@ -77,12 +76,12 @@ function make_onload_script_html($selected_department){
               department_select.value = selected_department;
             }
           };
-          </script>';
+          ';
   return $html;
 }
 
 function make_control_department_select_by_esoo_select_script_html(){
-  $html = '<script>
+  $html = '
           function control_department_select_by_esoo_select(esoo_select, department_select){
             department_select.options.length = 0;
             if(esoo_select.value == "전필" || esoo_select.value == "전선" || esoo_select.value == "지교" || esoo_select.value == "지필"){
@@ -101,7 +100,7 @@ function make_control_department_select_by_esoo_select_script_html(){
               //department_select.disabled = true;
             }
           }
-          </script>';
+          ';
   return $html;
 }
 
@@ -203,5 +202,16 @@ function make_thead_html(){
               <th>강의요시</th>
             </tr>
           </thead>';
+}
+
+function make_entire_script_html($department_list, $before_department){
+  $html = '<script>';
+  $html .= make_j_department_list_script_html($department_list);
+  $html .= make_control_department_select_by_esoo_select_script_html();
+  $html .= make_onload_script_html($before_department);
+  $html .= make_esoo_change_script_html();
+
+  $html .= '</script>';
+  return $html;
 }
 ?>

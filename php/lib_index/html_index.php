@@ -33,21 +33,17 @@ function make_dropdown_semester_html($semester_list){
 function make_year_change_script_html(){
   $year_change_script_html .=
   '
-  <script>
   function year_change(year_select_box){
     var select_semester = document.getElementById("select_semester");
     control_semester_select_by_year_select(year_select_box, select_semester);
-    }
-  </script>';
+    }';
   //getElementById("select_Semester")는 makePdropdwon_semester_html()의 <select id="select_semester">와 종속됨
 
   return $year_change_script_html;
 }
 
 function make_j_semester_list_script_html($semester_list){
-  $j_semester_list_script_html =
-  '<script>
-    j_semester_list = [];';
+  $j_semester_list_script_html = 'j_semester_list = [];';
 
   $year_list = array_keys($semester_list);
   foreach($year_list as $year){
@@ -58,7 +54,6 @@ function make_j_semester_list_script_html($semester_list){
     $j_semester_list_script_html .= $j_semester_list_aapend_script_html;
   }
 
-  $j_semester_list_script_html .= '</script>';
   return $j_semester_list_script_html;
 }
 
@@ -73,7 +68,7 @@ function make_form_html($semester_list){
 }
 
 function make_onload_script_html(){
-  return '<script>
+  return '
           window.onload = function(){
             var select_year = document.getElementById("select_year");
             var select_semester = document.getElementById("select_semester");
@@ -89,12 +84,11 @@ function make_onload_script_html(){
               control_semester_select_by_year_select(select_year, select_semester);
             }
           }
-        </script>';
+        ';
 }
 
 function make_control_semester_select_by_year_select_script_html(){
-  $html = '<script>
-            function control_semester_select_by_year_select(year_select, semester_select){
+  $html = ' function control_semester_select_by_year_select(year_select, semester_select){
               semester_select.options.length = 0;
               for(var i in j_semester_list[year_select.value]){
                 var opt = document.createElement("option");
@@ -102,9 +96,19 @@ function make_control_semester_select_by_year_select_script_html(){
                 opt.innerHTML = j_semester_list[year_select.value][i];
                 semester_select.appendChild(opt);
               }
-            }
-          </script>';
+            }';
 
+  return $html;
+}
+
+function make_entire_script_html($semester_list){
+  $html = '<script>';
+  $html .= make_j_semester_list_script_html($semester_list);
+  $html .= make_year_change_script_html($semester_list);
+  $html .= make_control_semester_select_by_year_select_script_html();
+  $html .= make_onload_script_html();
+
+  $html .= '</script>';
   return $html;
 }
  ?>

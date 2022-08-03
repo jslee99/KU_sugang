@@ -1,4 +1,4 @@
-#중복이 없다고 가정 할시 사용할 코드
+#중복이 없다고 가정 할시 사용할 코드 cur.executemany사용
 import pymysql
 from sqlite3 import Cursor
 from selenium import webdriver
